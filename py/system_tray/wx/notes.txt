@@ -1,0 +1,6 @@
+https://www.blog.pythonlibrary.org/2011/12/13/wxpython-101-creating-taskbar-icons/
+
+mail_ico.py was created using wxPython's img2py utility
+
+how to run:
+python sysTrayEx.py

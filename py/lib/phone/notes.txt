@@ -1,0 +1,11 @@
+https://www.tutorialspoint.com/python/python_modules.htm
+https://docs.python.org/3/reference/import.html
+https://docs.python.org/2/tutorial/modules.html
+
+Open a termial
+python
+>>> import phone
+>>> phone.xiaomi()
+>>> phone.iphone()
+>>> phone.isdn()
+>>> phone.g3()

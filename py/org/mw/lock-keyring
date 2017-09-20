@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+
+import gnomekeyring
+#import getpass
+
+#gnomekeyring.lock_sync("test"); #ok
+gnomekeyring.lock_sync("login"); #ok
+#gnomekeyring.lock_sync("Login"); #error - gnomekeyring.NoSuchKeyringError
+#gnomekeyring.lock_sync($1);
+

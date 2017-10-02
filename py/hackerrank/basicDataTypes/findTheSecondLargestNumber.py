@@ -1,6 +1,8 @@
 '''
 https://www.hackerrank.com/challenges/find-second-maximum-number-in-a-list/problem
-10/01/17 Points: 105 Rank: 55062
+10/01/17 
+Points: 105 Rank: 55062
+Points: 115 Rank: 49879
 '''
 
 if __name__ == "__main__":

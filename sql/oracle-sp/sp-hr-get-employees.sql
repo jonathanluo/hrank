@@ -1,6 +1,14 @@
 -- https://stackoverflow.com/questions/10024771/calling-a-stored-procedure-in-oracle-with-in-and-out-parameters
 -- plsql stored procedure cursor example
 -- pl sql stored procedure cursor out parameter
+
+-- Using PL/SQL Stored Procedures and REF CURSORs
+--    https://docs.oracle.com/cd/E17781_01/appdev.112/e18751/procedures_plsql.htm#TDPNG60040
+
+-- Example: Returning a REF CURSOR from a procedure (PL/SQL)
+--    https://www.ibm.com/support/knowledgecenter/en/SS6NHC/com.ibm.swg.im.dashdb.apdv.plsql.doc/doc/c0053892.html
+
+
 -- 09/20/17
 set serveroutput on;
 CREATE OR REPLACE PROCEDURE SP_GET_EMPLOYEES(V_EMPID IN NUMBER, V_OUT OUT SYS_REFCURSOR)
@@ -15,7 +23,6 @@ BEGIN
   
 END; 
 
-
 CREATE OR REPLACE PROCEDURE SP_GET_EMPLOYEES_2(V_EMPID IN EMPLOYEES.EMPLOYEE_ID%type, V_OUT OUT SYS_REFCURSOR)
 AS
 BEGIN 
@@ -23,6 +30,7 @@ BEGIN
     SELECT FIRST_NAME, LAST_NAME, EMPLOYEE_id FROM EMPLOYEES;
 END;
 
+-- Query 1
 -- https://stackoverflow.com/questions/6781916/how-to-test-an-oracle-stored-procedure-with-refcursor-return-type
 DECLARE
     v_OUT SYS_REFCURSOR; -- case insensitive for variables, must match SP IN and OUT paramters by name 
@@ -40,6 +48,7 @@ BEGIN
     END LOOP;
 END;
 
+-- Query 2
 DECLARE
     v_OUT SYS_REFCURSOR;
     V_EMPID NUMBER(6,0); -- or NUMBER

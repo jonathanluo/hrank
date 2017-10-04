@@ -10,6 +10,7 @@
     Points:  70 Rank: 53767 10/01/17
     Points: 100 Rank: 38367 10/02/17
     Points: 140 Rank: 28127 10/03/17
+    Points: 150 Rank: 25994 10/03/17
 
     Some C++ data types, their format specifiers, and their most common bit widths are as follows:
 

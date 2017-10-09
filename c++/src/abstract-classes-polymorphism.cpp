@@ -1,6 +1,6 @@
 /*
  * https://www.hackerrank.com/challenges/abstract-classes-polymorphism/problem
- * 10/07/17
+ * 10/07/17 Points: 314 Rank: 10230
  */
 #include <iostream>
 #include <cstdio>
@@ -36,7 +36,7 @@ class Cache{
 
 // http://www.cplusplus.com/reference/map/map/find/
 class LRUCache : public Cache {
-    int count;
+    int count; // cache item count
     public:
     LRUCache(int c) : count(0) {
         cp = c;
@@ -56,56 +56,24 @@ void LRUCache::printCache() {
     }
 }
 
+/*
+set() - Set/insert the value of the key, if present, otherwise add the key as the most recently used key.
+	    If the cache has reached its capacity, it should replace the least recently used key with a new key.
+*/
 void LRUCache::set(int key, int value) {
     std::map<int, Node*>::iterator it;
     it = mp.find(key);
     if (it != mp.end()) { // found
     	Node* curr = (*it).second;
     	curr->value = value;
-        return; // replace with new value for the same key
+        return; // replace with new value for the same key, no cacahe update is needed
     }
+    // add to the map first
     Node* node = new Node(key, value);
     mp.insert(std::pair<int, Node*>(key, node));
-}
-
-int LRUCache::get(int key) {
-    // lookup from cache first
-    Node* curr = head;
-    while (curr != NULL) {
-        if (curr->key == key) {
-            if (curr == head) {
-                // key is the first one, does nothing
-                return curr->value;
-            } else if (curr == tail) {
-            	if (curr->prev != NULL) {
-					tail = curr->prev;
-					tail->next = NULL;
-            	}
-                // move to the head
-                curr->next = head->next;
-                head = curr;
-                head->prev = NULL;
-            } else { // move recently used at head
-                curr->prev->next = curr->next;
-                curr->next = head->next;
-                head = curr;
-                head->prev = NULL;
-            }
-            return curr->value;
-        }
-        curr = curr->next;
-    }
-    // search from map
-    std::map<int, Node*>::iterator it;
-    it = mp.find(key);
-    if (it == mp.end()) { // not found
-        return -1;
-    }
-    std::pair<int, Node*> pair = *it;
-    curr = pair.second;
-    // add the node just found at the head
-    // remove LRU from tail if capacity exceeded
+    // add to the head of the cache
     count++;
+    Node* curr = node;
     if (head == NULL) { // insert the first node
         head = curr;
         tail = curr;
@@ -116,18 +84,30 @@ int LRUCache::get(int key) {
         head->prev = curr;
         head = curr;
         head->prev = NULL;
-        if (count > cp) {
-            // rermove the LRU node at tail
-        	if (tail->prev != NULL) {
-				tail = tail->prev;
-				tail->next = NULL;
-        	} else {
-        		tail = head;
-        	}
-            count = cp;
-        }
     }
-    return curr->value; 
+    if (count > cp) {
+        // remove the LRU node at tail
+    	if (tail->prev != NULL) {
+			tail = tail->prev;
+			tail->next = NULL;
+    	} else {
+    		tail = head;
+    	}
+        count = cp;
+    }
+}
+/**
+ * get() - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+ */
+int LRUCache::get(int key) {
+    Node* curr = head;
+    while (curr != NULL) {
+        if (curr->key == key) {
+			return curr->value;
+        }
+        curr = curr->next;
+    }
+    return -1;
 }
 
 int main() {
@@ -158,6 +138,7 @@ set 1 2
 get 1
 get 2
 
+Expected output:
 2
 -1
 -- =======================
@@ -167,6 +148,7 @@ set 2 7
 get 1
 get 2
 
+Expected output:
 2
 -1
 -- =======================
@@ -178,7 +160,10 @@ get 2
 set 2 9
 get 2
 
-
+Expected output:
+2
+7
+9
 -- =======================
 8 4
 set 4 2

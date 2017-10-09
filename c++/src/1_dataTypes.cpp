@@ -1,24 +1,25 @@
 /*
     https://www.hackerrank.com/challenges/c-tutorial-basic-data-types/problem
-    Points:   0 Rank: 230821 10/01/17
-    Points:  15 Rank: 126507
-    Points:  25 Rank: 107500
-    Points:  35 Rank: 92368
-    Points:  45 Rank: 82833
-    Points:  55 Rank: 73629
-    Points:  65 Rank: 65152
-    Points:  70 Rank: 53767 10/01/17
-    Points: 100 Rank: 38367 10/02/17
-    Points: 140 Rank: 28127 10/03/17
-    Points: 150 Rank: 25994 10/03/17
-    Points: 160 Rank: 23744 10/04/17
-    Points: 170 Rank: 22329 10/04/17
-    Points: 180 Rank: 20843 10/04/17
-    Points: 200 Rank: 18468 10/04/17
-    Points: 224 Rank: 16301 10/06/17
-    Points: 254 Rank: 13925 10/06/17
-	Points: 314 Rank: 10230 10/08/17
-	Points: 344 Rank:  8965 10/08/17
+    Pts:   0 R: 230821 10/01/17
+    Pts:  15 R: 126507
+    Pts:  25 R: 107500
+    Pts:  35 R: 92368
+    Pts:  45 R: 82833
+    Pts:  55 R: 73629
+    Pts:  65 R: 65152
+    Pts:  70 R: 53767 10/01/17
+    Pts: 100 R: 38367 10/02/17
+    Pts: 140 R: 28127 10/03/17
+    Pts: 150 R: 25994 10/03/17
+    Pts: 160 R: 23744 10/04/17
+    Pts: 170 R: 22329 10/04/17
+    Pts: 180 R: 20843 10/04/17
+    Pts: 200 R: 18468 10/04/17
+    Pts: 224 R: 16301 10/06/17
+    Pts: 254 R: 13925 10/06/17
+	Pts: 314 R: 10230 10/08/17
+	Pts: 344 R:  8965 10/08/17
+	Pts: 354 R:  8575 10/08/17
 
     Some C++ data types, their format specifiers, and their most common bit widths are as follows:
 

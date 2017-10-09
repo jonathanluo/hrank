@@ -20,6 +20,7 @@
 	Pts: 314 R: 10230 10/08/17
 	Pts: 344 R:  8965 10/08/17
 	Pts: 354 R:  8575 10/08/17
+ 	Pts: 364 R:  8174 10/08/17
 
     Some C++ data types, their format specifiers, and their most common bit widths are as follows:
 

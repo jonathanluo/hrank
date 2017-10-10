@@ -1,6 +1,7 @@
 /*
  * https://www.hackerrank.com/challenges/cpp-lower-bound/problem
- * 10/09/17
+ * http://www.cplusplus.com/reference/algorithm/lower_bound/
+ * 10/09/17 Pts: 379 R: 7674
  */
 
 #include <cmath>
@@ -27,23 +28,18 @@ int main() {
     	int query;
     	cin >> query;
     	// search against vector
-    	int i = 1;
-    	bool found = false;
-    	for(std::vector<int>::iterator it = v.begin(); it != v.end(); ++it) {
-    		if (*it == query) {
-    			cout << "Yes " << i << endl;
-    			found = true;
-    			break;
-    		} else if (*it < query) {
-    			i++;
-    			continue;
-    		} else {
-    			break;
-    		}
-		}
-		if (!found) {
-			cout << "No " << i << endl;
-		}
+		if (query < v[0]) {
+			cout << "No 1" << endl;
+		} else {
+			std::vector<int>::iterator low,up;
+			low=std::lower_bound (v.begin(), v.end(), query);
+			if (std::binary_search(v.begin(), v.end(), query)) {
+				cout << "Yes ";				
+			} else {
+				cout << "No ";
+			}
+			std::cout << (low- v.begin() + 1) << '\n'; 
+    	}    	
     }
     return 0;
 }

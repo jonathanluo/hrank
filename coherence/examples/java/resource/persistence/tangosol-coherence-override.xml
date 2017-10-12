@@ -1,0 +1,48 @@
+<?xml version='1.0'?>
+
+<coherence  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://xmlns.oracle.com/coherence/coherence-operational-config"
+            xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-operational-config coherence-operational-config.xsd"
+            xml-override="../common/tangosol-coherence-override.xml">
+
+  <cluster-config>
+    <!--
+    The following can be used to specify the directories individually.
+    It is not needed for this example as we are using default-active
+    and specifying -Dcoherence.distributed.persistence.base.dir
+    -->
+    <!--
+    <persistence-environments>
+      <persistence-environment id="sample-environment">
+        <persistence-mode>active</persistence-mode>
+        <active-directory   system-property="coherence.distributed.persistence.active.dir">persistence-data/store-active</active-directory>
+        <snapshot-directory system-property="coherence.distributed.persistence.snapshot.dir">persistence-data/store-snapshot</snapshot-directory>
+        <trash-directory    system-property="coherence.distributed.persistence.trash.dir">persistence-data/store-trash</trash-directory>
+      </persistence-environment>
+    </persistence-environments>
+    -->
+
+    <snapshot-archivers>
+      <directory-archiver id="shared-directory-archiver">
+        <archive-directory system-property="coherence.distributed.persistence.archive.dir">persistence-data/archives</archive-directory>
+      </directory-archiver>
+    </snapshot-archivers>
+
+    <!--
+    This address provider specified the hosts that must be part of
+    the cluster before the recovery of partitions is started
+    -->
+    <!--
+    <address-providers>
+      <address-provider id="persistence-host-list">
+        <address>host1.demo.com</address>
+        <address>host2.demo.com</address>
+      </address-provider>
+    </address-providers>
+    -->
+  </cluster-config>
+
+  <management-config>
+    <managed-nodes system-property="coherence.management">all</managed-nodes>
+  </management-config>
+</coherence>

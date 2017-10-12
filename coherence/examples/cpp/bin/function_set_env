@@ -1,0 +1,16 @@
+function set_env
+{
+EXAMPLE=$1
+MODE=$2
+if [ -z $EXAMPLE ]; then
+    echo You must supply the name of an example to build.
+    exit 1
+fi
+
+if [ -z $COHERENCE_CPP_HOME ]; then
+    echo COHERENCE_CPP_HOME is not set!
+    echo Set COHERENCE_CPP_HOME to a Coherence C++ installation.
+    exit 1
+fi
+
+}

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<head>
+    <title>Oracle Coherence REST Examples - Display Contacts</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/demo.css">
+
+    <script src="js/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/angularjs/1.4.1/angular.min.js"></script>
+    <script src="bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/contacts.js"></script>
+</head>
+<html>
+<body>
+
+<div class="container">
+    <div ng-app="myApp" ng-controller="contactsCtrl">
+        <div class="page-header">
+            <h2>Oracle Coherence REST Examples - Display Contacts (Count = {{ names.length }}) </h2>
+        </div>
+
+        <!-- Modal Add Contact -->
+        <div class="modal fade" id="modalAdd" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:35px 50px;">
+                        <button type="button" class="close"
+                                data-dismiss="modal">&times;</button>
+                        <h4 style="color:red;">Add Contact</h4>
+                    </div>
+                    <div class="modal-body" style="padding:40px 50px;">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="firstName">First Name:</label>
+                                <input type="text" class="form-control"
+                                       id="firstName" ng-model="firstName"
+                                       placeholder="Enter First Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name:</label>
+                                <input type="text" class="form-control" id="lastName" ng-model="lastName"
+                                       placeholder="Enter Last Name" required>
+                            </div>
+                            <button type="submit"
+                                    class="btn btn-default btn-success btn-block"
+                                    ng-click="createContact()">
+                                Save
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit"
+                                class="btn btn-default btn-default pull-left"
+                                data-dismiss="modal"><span
+                                class="glyphicon glyphicon-remove"></span> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Add Product -->
+        <div class="modal fade" id="modalAddress" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:35px 50px;">
+                        <button type="button" class="close"
+                                data-dismiss="modal">&times;</button>
+                        <h4 style="color:red;"></span>Edit {{addressType}} Address</h4>
+                    </div>
+                    <div class="modal-body" style="padding:40px 50px;">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="street1" class="control-label col-sm-4">Street 1:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control"
+                                           id="street1" ng-model="street1"
+                                           placeholder="Enter Street 1"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="street2" class="control-label col-sm-4">Street 2:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control"
+                                           id="street2" ng-model="street2"
+                                           placeholder="Enter Street 2"required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="city" class="control-label col-sm-4">City:</label>
+
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control"
+                                           id="city" ng-model="city"
+                                           placeholder="Enter City"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="state" class="control-label col-sm-4">State:</label>
+
+                                <div class="col-sm-4">
+                                    <select ng-model="state" name="state" >
+                                        <option ng-repeat="state in states" value="{{state.code}}">{{state.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode"
+                                       class="control-label col-sm-4">Zip Code:</label>
+
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control"
+                                           id="zipCode" ng-model="zipCode"
+                                           placeholder="Enter Zip Code"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="country"
+                                       class="control-label col-sm-4">Country:</label>
+
+                                <div class="col-sm-8">
+                                    <select ng-model="country" name="state" >
+                                        <option ng-repeat="country in countries" value="{{country.code}}">{{country.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-default btn-success btn-block"
+                                    ng-click="saveAddress()">
+                                Save
+                            </button>
+                            <input type="hidden" name="hiddenFirstName" />
+                            <input type="hidden" name="hiddenLastName" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit"
+                                class="btn btn-default btn-default pull-left"
+                                data-dismiss="modal"><span
+                                class="glyphicon glyphicon-remove"></span>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a href="index.html"  class="btn btn-default" role="button">Back to Examples Home</a>
+            <button type="button" class="btn btn-default" ng-click="showCreateContact()">
+                <span class="glyphicon glyphicon-plus"></span> Create Random Contact with Name</button>
+            <button type="button" class="btn btn-default" ng-click="populateDefaults()">
+                <span class="glyphicon glyphicon-plus"></span> Add Default Contacts</button>
+        </div>
+        <p>
+        <div>
+            <button type="button" class="btn btn-default" ng-click="doQuery('')">Show All</button>
+            <button type="button" class="btn btn-default" ng-click="doQuery('homeAddress.state%20is%20%27MA%27')">Show MA Residents</button>
+
+            <button type="button" class="btn btn-default" ng-click="doSort('age')">Sort by Age</button>
+            <button type="button" class="btn btn-default" ng-click="doSort('workAddress.state')">Sort by Work State</button>
+            <button type="button" class="btn btn-default" ng-click="doSort('homeAddress.zipCode:desc')">Sort by Home Zipcode (desc)</button>
+        </div>
+        <p>
+
+        <div class="alert alert-success" >
+            Sorting using {{current_url}}
+        </div>
+        <div class="alert alert-success" ng-show="displayCreateMessage">
+            Created Contact. &nbsp;&nbsp; POST {{createMessage}}
+        </div>
+        <div class="alert alert-success" ng-show="displayDeleteMessage">
+            Deleted Contact. &nbsp;&nbsp; DELETE {{deleteMessage}}
+        </div>
+
+        <table ng-table="contacts">
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Birth Date</th>
+                <th>Age</th>
+                <th>Home Address</th>
+                <th>Work Address</th>
+                <th>Phone Numbers</th>
+                <th>Actions</th>
+            </tr>
+            <tr ng-repeat="x in names">
+                <td ng-if="$odd" style="background-color:#f1f1f1">
+                    <a ng-href="#" data-toggle="tooltip" title="Click to view data as XML" ng-click="viewAsXML(x.firstName,x.lastName)">
+                    {{ x.lastName }}
+                    </a>
+                </td>
+                <td ng-if="$even">
+                    <a ng-href="#" data-toggle="tooltip" title="Click to view data as XML" ng-click="viewAsXML(x.firstName,x.lastName)">
+                    {{ x.lastName }}
+                    </a>
+                </td>
+                <td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ x.firstName }}</td>
+                <td ng-if="$even">
+                    {{ x.firstName }}</td>
+                <td ng-if="$odd" style="background-color:#f1f1f1" >
+                    {{ x.birthDate}}</td>
+                <td ng-if="$even" >
+                    {{ x.birthDate}}</td>
+                <td ng-if="$odd" style="background-color:#f1f1f1" align="right" >
+                    {{ x.age }}</td>
+                <td ng-if="$even" align="right" >
+                    {{ x.age }}</td>
+                <td ng-if="$odd" style="background-color:#f1f1f1" >
+                    <a ng-href="#"
+                       ng-click="editAddress('Home', x.firstName, x.lastName, x.homeAddress.street1, x.homeAddress.street2, x.homeAddress.city, x.homeAddress.state, x.homeAddress.zipCode, x.homeAddress.country)"
+                       data-toggle="tooltip" title="Click to edit">
+                    {{ x.homeAddress.street1 }} {{ x.homeAddress.street2 }} {{ x.homeAddress.city}}, {{ x.homeAddress.country}}, {{x.homeAddress.state }}, {{ x.homeAddress.zipCode}}
+                    </a>
+                </td>
+                <td ng-if="$even" >
+                    <a ng-href="#"
+                       ng-click="editAddress('Home', x.firstName, x.lastName, x.homeAddress.street1, x.homeAddress.street2, x.homeAddress.city, x.homeAddress.state, x.homeAddress.zipCode, x.homeAddress.country)"
+                       data-toggle="tooltip" title="Click to edit">
+                    {{ x.homeAddress.street1 }} {{ x.homeAddress.street2 }} {{ x.homeAddress.city}}, {{ x.homeAddress.country}}, {{x.homeAddress.state }}, {{ x.homeAddress.zipCode}}
+                    </a>
+                </td>
+                <td ng-if="$odd" style="background-color:#f1f1f1" >
+                    <a ng-href="#"
+                       ng-click="editAddress('Work', x.firstName, x.lastName, x.workAddress.street1, x.workAddress.street2, x.workAddress.city, x.workAddress.state, x.workAddress.zipCode, x.workAddress.country)"
+                       data-toggle="tooltip" title="Click to edit">
+                    {{ x.workAddress.street1 }} {{ x.workAddress.street2 }} {{ x.workAddress.city}}, {{ x.workAddress.country}}, {{x.workAddress.state }}, {{ x.workAddress.zipCode}}
+                    </a>
+                </td>
+                <td ng-if="$even" >
+                    <a ng-href="#"
+                       ng-click="editAddress('Work', x.firstName, x.lastName, x.workAddress.street1, x.workAddress.street2, x.workAddress.city, x.workAddress.state, x.workAddress.zipCode, x.workAddress.country)"
+                       data-toggle="tooltip" title="Click to edit">
+                    {{ x.workAddress.street1 }} {{ x.workAddress.street2 }} {{ x.workAddress.city}}, {{ x.workAddress.country}}, {{x.workAddress.state }}, {{ x.workAddress.zipCode}}
+                    </a>
+                </td>
+                <td ng-if="$odd" style="background-color:#f1f1f1" >
+                    <div ng-repeat="y in x.phoneNumbers">
+                        {{ y.accessCode }} {{ y.countryCode }} {{ y.areaCode }} {{ y.localNumber }} <br>
+                    </div>
+                </td>
+                <td ng-if="$even" >
+                    <div ng-repeat="y in x.phoneNumbers">
+                        {{ y.accessCode }} {{ y.countryCode }} {{ y.areaCode }} {{ y.localNumber }} <br>
+                    </div>
+                </td>
+                <td ng-if="$odd" style="background-color:#f1f1f1">
+                    <a ng-href="#" class="btn btn-default btn-sm" role="button" ng-click="deleteContact(x.firstName,x.lastName)">
+                        <span class="glyphicon glyphicon-remove"></span> Delete</a>
+                </td>
+                <td ng-if="$even">
+                    <a ng-href="#" class="btn btn-default btn-sm" role="button" ng-click="deleteContact(x.firstName,x.lastName)">
+                        <span class="glyphicon glyphicon-remove"></span> Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<head>
+    <title>Oracle Coherence REST Examples - Departments</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/demo.css">
+
+    <script src="js/jquery/1.11.3/jquery.min.js"></script>
+    <script src="bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/angularjs/1.4.1/angular.min.js"></script>
+    <script src="js/departments.js"></script>
+</head>
+
+<html>
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <h2>Oracle Coherence REST Examples - Departments</h2>
+    </div>
+
+    <div ng-app="myApp" ng-controller="departmentsCtrl">
+
+        <!-- Modal Add Departments -->
+        <div class="modal fade" id="modalAdd" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:35px 50px;">
+                        <button type="button" class="close"
+                                data-dismiss="modal">&times;</button>
+                        <h4 style="color:red;">{{buttonAction}} Department</h4>
+                    </div>
+                    <div class="modal-body" style="padding:40px 50px;">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="deptCode">Department Code:</label>
+                                <input type="text" class="form-control"
+                                       id="deptCode" ng-model="deptCode" ng-readonly="editing"
+                                       placeholder="Enter Department Code" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Department Name:</label>
+                                <input type="text" class="form-control" id="name" ng-model="deptName"
+                                       placeholder="Enter Department Name" required>
+                            </div>
+                            <button type="submit"
+                                    class="btn btn-default btn-success btn-block"
+                                    ng-click="saveDepartment()">
+                                Save
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit"
+                                class="btn btn-default btn-default pull-left"
+                                data-dismiss="modal"><span
+                                class="glyphicon glyphicon-remove"></span> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="btn btn-default" role="button">Back to
+            Examples Home</a>
+        <button type="button" class="btn btn-default" id="btnAddDepartment" ng-click="addDepartment()">
+            <span class="glyphicon glyphicon-plus"></span> Add Department</button>
+        <button type="button" class="btn btn-default" id="btnPopulateDefaults" ng-click="populateDefaults()">
+            <span class="glyphicon glyphicon-plus"></span> Add Default Departments</button>
+        <p>
+
+        <div class="alert alert-success" ng-show="delete">
+            Deleted Department {{departmentActioned}}. &nbsp;&nbsp;
+            DELETE {{current_url}}/cache/departments/{{departmentActioned}}
+        </div>
+        <div class="alert alert-success" ng-show="save">
+            Added/Edited Department {{departmentActioned}}. &nbsp;&nbsp;
+            PUT {{current_url}}/cache/departments/{{departmentActioned}}
+        </div>
+
+        <table ng-table="products" >
+            <tr>
+                <th>Dept Code</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="x in names">
+                <td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ x.deptCode }}
+                </td>
+                <td ng-if="$even">
+                    {{ x.deptCode }}
+                </td>
+                <td ng-if="$odd" style="background-color:#f1f1f1">
+                    <a ng-href="#" ng-click="editDepartment(x.deptCode,x.name)" data-toggle="tooltip" title="Click to edit">
+                        {{ x.name }}
+                    </a>
+                </td>
+                <td ng-if="$even">
+                    <a ng-href="#" ng-click="editDepartment(x.deptCode,x.name)" data-toggle="tooltip" title="Click to edit">
+                        {{ x.name }}
+                    </a>
+                </td>
+                <td ng-if="$odd" style="background-color:#f1f1f1">
+                    <a ng-href="#" class="btn btn-default btn-sm" role="button" ng-click="deleteDepartment(x.deptCode)">
+                        <span class="glyphicon glyphicon-remove"></span> Delete</a>
+                </td>
+                <td ng-if="$even">
+                    <a ng-href="#" class="btn btn-default btn-sm" role="button" ng-click="deleteDepartment(x.deptCode)">
+                        <span class="glyphicon glyphicon-remove"></span> Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

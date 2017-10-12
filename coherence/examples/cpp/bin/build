@@ -1,0 +1,87 @@
+#! /bin/bash
+
+cd `dirname $0`
+EXAMPLES_DIR=`pwd`/..
+. ./function_set_env
+
+set_env $1 $2
+
+COH_LIB=coherence
+
+if [[ $MODE == "debug" ]] ; then
+    CC_OPTS="-g"
+else
+    CC_OPTS="-O3"
+fi
+
+OS=$(uname -s)
+# Platform specific settings
+if [[ $OS == "Darwin" ]] ; then
+    CC=g++
+    LIBSUFFIX=.dylib
+elif [[ $OS == "Linux" ]] ; then
+    CC=g++
+    LIBSUFFIX=.so
+elif [[ $OS == "SunOS" ]] ; then
+    CC=CC
+    LIBSUFFIX=.so
+else
+    echo unrecognized build environment $OS
+fi
+
+COH_LIB_FILE=${COHERENCE_CPP_HOME}/lib/lib${COH_LIB}${LIBSUFFIX}
+if [ ! -f $COH_LIB_FILE ] ; then
+    echo Missing Coherence Dynamic Library: ${COH_LIB_FILE}
+    exit 1
+fi
+
+# Identify 32 or 64 binary
+if [ `file  ${COH_LIB_FILE} | grep '64' | wc -w` -gt 0 ] ; then
+    ARCH=64
+else
+    ARCH=32
+fi 
+
+# Compiler specific settings
+if [ $CC == "g++" ] ; then
+    CC_OPTS="-Wall -ansi -m${ARCH} $CC_OPTS"
+elif [ $CC == "CC" ] ; then
+    CC_OPTS="-errtags=yes -m${ARCH} $CC_OPTS"
+fi 
+
+EXAMPLES_OUT_DIR=$EXAMPLES_DIR/$EXAMPLE/out
+POF_OUT_DIR=$EXAMPLES_DIR/pof/out
+
+INC="-I$EXAMPLES_DIR -I$COHERENCE_CPP_HOME/include -I."
+SRC="$EXAMPLES_DIR/$EXAMPLE/*.cpp"
+LIBPATH="-L$COHERENCE_CPP_HOME/lib -L$POF_OUT_DIR"
+LIB="-l${COH_LIB} -lpof"
+
+
+$EXAMPLES_DIR/bin/build_pof $MODE
+
+if [ ! -d $EXAMPLES_OUT_DIR ]; then
+   mkdir $EXAMPLES_OUT_DIR
+fi
+
+OUT=$EXAMPLES_OUT_DIR/$EXAMPLE
+
+if [[ $EXAMPLE == "console" ]] ; then
+    echo "The console is an embedded application; no compilation is necessary."
+else
+    # Perform build
+    echo building $OUT ...
+    if [[ $COH_VERBOSE == "true" ]] ; then
+        echo
+        echo +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        echo $CC $CC_OPTS $SRC $INC $LIBPATH $LIB -o $OUT
+        echo +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        echo    
+    fi
+    $CC $CC_OPTS $SRC $INC $LIBPATH $LIB -o $OUT
+
+    # Cleanup the intermediates
+    rm -f *.o
+fi
+
+echo To run this example execute \'bin/run $EXAMPLE\'

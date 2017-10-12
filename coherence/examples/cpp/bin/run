@@ -1,0 +1,60 @@
+#! /bin/bash
+
+cd `dirname $0`
+EXAMPLES_DIR=`pwd`/..
+. ./function_set_env
+
+set_env $1 $2
+
+EXEC=$EXAMPLES_DIR/$EXAMPLE/out/$EXAMPLE
+LIB=$EXAMPLES_DIR/pof/out:$COHERENCE_CPP_HOME/lib
+CONFIG=$EXAMPLES_DIR/config
+
+OS=$(uname -s)
+
+# Platform specific settings
+if [[ $OS == "Darwin" ]] ; then
+    export DYLD_LIBRARY_PATH=$LIB:$DYLD_LIBRARY_PATH
+elif [[ $OS == "Linux" ]] ; then
+    export LD_LIBRARY_PATH=$LIB:$LD_LIBRARY_PATH
+elif [[ $OS == "SunOS" ]] ; then
+    export LD_LIBRARY_PATH=$LIB:$LD_LIBRARY_PATH
+else
+    echo unrecognized environment $OS
+fi
+
+CACHE_CONFIG_FILE_NAME=examples-extend-cache-config.xml
+
+# if config is found in examples resource directory, use it instead of basic config
+if [ -e $CONFIG/$EXAMPLE/$CACHE_CONFIG_FILE_NAME ]; then
+   CACHE_CONFIG=$CONFIG/$EXAMPLE/$CACHE_CONFIG_FILE_NAME
+else
+   CACHE_CONFIG=$CONFIG/$CACHE_CONFIG_FILE_NAME
+fi    
+export CoherenceCacheconfig=$CACHE_CONFIG
+
+# if the example has an override file, use it
+if [ -e $CONFIG/$EXAMPLE/tangosol-coherence-override.xml ]; then
+   export CoherenceOverride=$CONFIG/$EXAMPLE/tangosol-coherence-override.xml
+fi
+
+export CoherenceLog=${EXAMPLE}.log
+
+echo redirecting Coherence logging to ${CoherenceLog}...
+
+shift
+if [[ $EXAMPLE == "console" ]] ; then
+    # the console is now embedded within the coherence shared library
+    $COHERENCE_CPP_HOME/bin/sanka -l coherence-debug coherence::net::CacheFactory $*
+elif [[ $EXAMPLE == "sanka" ]] ; then
+    $COHERENCE_CPP_HOME/bin/sanka $*
+else
+    if [[ $COH_VERBOSE == "true" ]] ; then
+        echo 
+        echo +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        echo $EXEC $*
+        echo +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        echo 
+    fi 
+    $EXEC $*
+fi

@@ -75,7 +75,6 @@ int main() {
     	if (type == 1) { // "1 v" - Add an element to the heap
     		cin >> data;
     		v.push_back(data);
-    		std::make_heap(v.begin(), v.end(), greater_func());
     	} else if (type == 2) { // "2 v" - Delete the element from the heap
     		cin >> data;
     		
@@ -85,9 +84,9 @@ int main() {
   			if (index != -1) {
 	  			std::swap(v[index], v[v.size() - 1]);
 	  			v.pop_back();
-	    		std::make_heap(v.begin(), v.end(), greater_func());
   			}
     	} else if (type == 3) { // "3" - Print the minimum of all the elements in the heap
+    		std::make_heap(v.begin(), v.end(), greater_func());
     		cout << v.front() << endl;
     	}
     }

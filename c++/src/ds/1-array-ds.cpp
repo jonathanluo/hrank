@@ -1,10 +1,12 @@
 /*
  * https://www.hackerrank.com/challenges/arrays-ds/problem
- * 10/14/17 Pts  0  R: > 300000
- *          Pts  10 R: 238647
- * 10/15/17 Pts: 25 R: 175751
- *          Pts: 45 R: 140244
- *          Pts: 75 R: 102641
+ * 10/14/17 Pts  0   	R: > 300000
+ *          Pts  10  	R: 238647
+ * 10/15/17 Pts: 25  	R: 175751
+ *          Pts: 45  	R: 140244
+ *          Pts: 75  	R: 102641
+ * 10/18/17	Pts: 100 	R:  82944
+ * 10/19/17 Pts: 118.52 R: 	73507
  */
 #include <map>
 #include <set>

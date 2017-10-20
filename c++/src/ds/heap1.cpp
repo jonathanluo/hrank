@@ -10,12 +10,13 @@
  * but do not need to implement one. Instead call the method as follows:
  * make_heap(A.begin(), A.end(), greater<int>());
  */
- 
-#include <cmath>
-#include <cstdio>
-#include <vector>
-#include <iostream>
-#include <algorithm>
+#include<bits/stdc++.h>
+
+// #include <cmath>
+// #include <cstdio>
+// #include <vector>
+// #include <iostream>
+// #include <algorithm>
 using namespace std;
 
 /*
@@ -63,9 +64,14 @@ struct greater_func { // use greater function to make a min heap
 	}
 };
 
+#define N 10000 //Heap size
+
 int main() {
     /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    
     std::vector<int> v;
+    //std::vector<int> v(N);
+    //cout<< v.size() << endl;
     int n;
     cin >> n;
     while (n-- > 0) {
